@@ -4,10 +4,10 @@ import Message from "./message";
 
 function Conversation({ selectedChat, hubConnection }) {
     const [messages, setMessages] = useState([]);
+    const [sender, setSender] = useState(localStorage.getItem("email"));
     const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
     const messageText = useRef("");
     const messageContainer = useRef(null);
-    const sender = localStorage.getItem("email");
 
     const getMessages = async () => {
         const receiver = selectedChat.email;
@@ -25,7 +25,6 @@ function Conversation({ selectedChat, hubConnection }) {
 
     const sendMessage = async (e) => {
         e.preventDefault();
-        //const sender = localStorage.getItem("email");
         const receiver = selectedChat.email;
         const api = "http://localhost:5036/api/message";
         try {
@@ -41,7 +40,7 @@ function Conversation({ selectedChat, hubConnection }) {
             if (res.status === 200) {
                 messageText.current.value = "";
                 getMessages();
-                await hubConnection.invoke("SendMessage", receiver, "");
+                await hubConnection.invoke("SendMessage", receiver, '');
                 setShouldScrollToBottom(true);
             }
         } catch (e) {
@@ -49,7 +48,7 @@ function Conversation({ selectedChat, hubConnection }) {
         }
     };
 
-    const deleteMessage = async (e)=>{
+    const deleteMessage = async (e) => {
         e.preventDefault();
         const receiver = selectedChat.email;
         const api = `http://localhost:5036/api/message?sender=${sender}&receiver=${receiver}`;
@@ -57,12 +56,12 @@ function Conversation({ selectedChat, hubConnection }) {
             const res = await axios.delete(api);
             if (res.status === 200) {
                 getMessages();
-                await hubConnection.invoke("SendMessage", receiver, "");
+                await hubConnection.invoke("SendMessage", receiver, '');
             }
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 
     useEffect(() => {
         getMessages();
@@ -70,6 +69,9 @@ function Conversation({ selectedChat, hubConnection }) {
             getMessages();
             setShouldScrollToBottom(true);
         });
+        return () => {
+            hubConnection.off("ReceiveMessage");
+        };
     }, [selectedChat]);
 
     useEffect(() => {
@@ -111,7 +113,11 @@ function Conversation({ selectedChat, hubConnection }) {
         <div className='col-8 border border-primary rounded p-2'>
             <div className='border align-middle p-2' style={{ height: "10%" }}>
                 <p className='mb-0 d-inline-flex fs-4'>{`${selectedChat.firstName} ${selectedChat.lastName}`}</p>
-                <i className='fa fa-trash float-end text-center p-2 fs-4' onClick={deleteMessage} style={{cursor:'pointer'}}></i>
+                <i
+                    className='fa fa-trash float-end text-center p-2 fs-4'
+                    onClick={deleteMessage}
+                    style={{ cursor: "pointer" }}
+                ></i>
             </div>
             <div
                 className='border'
