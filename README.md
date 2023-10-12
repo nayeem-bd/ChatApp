@@ -38,4 +38,6 @@ Start the frontend
 ```
 ## Screenshot
 
-![WebApp Screenshot](https://github.com/nayeem-bd/ChatApp/blob/main/ChatApp/Screenshot/screenshot.png)
+![HomePage Screenshot](https://github.com/nayeem-bd/ChatApp/blob/main/ChatApp/Screenshot/screenshot.png)
+![LogInPage Screenshot](https://github.com/nayeem-bd/ChatApp/blob/main/ChatApp/Screenshot/LoginPage.png)
+![SignUpPage Screenshot](https://github.com/nayeem-bd/ChatApp/blob/main/ChatApp/Screenshot/SignUpPage.png)
