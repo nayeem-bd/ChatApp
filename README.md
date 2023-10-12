@@ -36,3 +36,6 @@ Start the frontend
 ```bash
     npm start
 ```
+## Screenshot
+
+![WebApp Screenshot](https://github.com/nayeem-bd/ChatApp/blob/main/ChatApp/Screenshot/screenshot.png)
