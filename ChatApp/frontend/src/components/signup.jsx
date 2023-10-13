@@ -1,64 +1,103 @@
 import { useRef } from "react";
 import { signup } from "../utils/auth";
+import coverImage from "../images/signupPageImage.png";
 
 function SignUp() {
-    const email = useRef('');
-    const firstName = useRef('');
-    const lastName = useRef('');
+    const email = useRef("");
+    const firstName = useRef("");
+    const lastName = useRef("");
     return (
-        <form className='col-lg-4 col-md-6 col-sm-10 mx-auto p-2 mt-4' onSubmit={(e)=>{
-            e.preventDefault();
-            signup(email.current.value,firstName.current.value,lastName.current.value);
-        }}>
-            <div className='mb-3 col-lg-8 col-md-8 col-sm-8'>
-                <label htmlFor='firstName' className='form-label'>
-                    Frist Name:
-                </label>
-                <input
-                    type='text'
-                    className='form-control'
-                    id='firstName'
-                    ref={firstName}
-                    required
-                />
-            </div>
-            <div className='mb-3 col-lg-8 col-md-8 col-sm-8'>
-                <label htmlFor='lastName' className='form-label'>
-                    Last Name:
-                </label>
-                <input
-                    type='text'
-                    className='form-control'
-                    id='lastName'
-                    ref={lastName}
-                    required
-                />
-            </div>
-            <div className='mb-3 col-lg-8 col-md-8 col-sm-8'>
-                <label htmlFor='email' className='form-label'>
-                    Email address
-                </label>
-                <input
-                    type='email'
-                    className='form-control'
-                    id='email'
-                    ref={email}
-                    required
-                />
-            </div>
-            <button type='submit' className='btn btn-primary col-lg-auto col-md-auto'>
-                Create new Account
-            </button>
-            <button
-                type='button'
-                className='btn btn-primary ms-4 col-lg-2 col-md-2'
-                onClick={() => {
-                    window.location.replace("/login");
-                }}
+        <div style={{ backgroundColor: "#ececec", height: "730px" }}>
+            <div
+                className=''
+                style={{ backgroundColor: "#ececec", paddingTop: "10%" }}
             >
-                Login
-            </button>
-        </form>
+                <div className='rounded shadow mx-auto main-container row'>
+                    <div className='col-6'>
+                        <form
+                            className='m-4'
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                signup(
+                                    email.current.value,
+                                    firstName.current.value,
+                                    lastName.current.value
+                                );
+                            }}
+                        >
+                            <h2 className='mb-4'>Register</h2>
+                            <div className=''>
+                                <label
+                                    htmlFor='firstName'
+                                    className='form-label'
+                                >
+                                    Frist Name
+                                </label>
+                                <input
+                                    type='text'
+                                    className='form-control'
+                                    id='firstName'
+                                    placeholder='Enter your frist name'
+                                    ref={firstName}
+                                    required
+                                />
+                            </div>
+                            <div className=''>
+                                <label
+                                    htmlFor='lastName'
+                                    className='form-label'
+                                >
+                                    Last Name
+                                </label>
+                                <input
+                                    type='text'
+                                    className='form-control'
+                                    id='lastName'
+                                    placeholder='Enter your last name'
+                                    ref={lastName}
+                                    required
+                                />
+                            </div>
+                            <div className=''>
+                                <label htmlFor='email' className='form-label'>
+                                    Email
+                                </label>
+                                <input
+                                    type='email'
+                                    className='form-control'
+                                    id='email'
+                                    placeholder='Enter your email address'
+                                    ref={email}
+                                    required
+                                />
+                            </div>
+                            <button
+                                type='submit'
+                                className='btn btn-primary btn-sm mt-4 px-4'
+                            >
+                                Sign Up
+                            </button>
+                            <p className='mt-2'>
+                                Already a member?
+                                <a href='/login'>Register Here</a>
+                            </p>
+                        </form>
+                    </div>
+                    <div className='col-6'>
+                        <img
+                            src={coverImage}
+                            alt='welcome img-fluid mx-auto'
+                            style={{
+                                height: "auto",
+                                width: "100%",
+                                marginTop: "-10px",
+                                transform: "scale(1.5)",
+                            }}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 

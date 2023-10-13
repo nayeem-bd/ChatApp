@@ -1,38 +1,52 @@
 import { useRef } from "react";
-import { login} from "../utils/auth";
+import { login } from "../utils/auth";
+
+import welcome from '../images/welcome.png';
 
 function Login() {
-    const email = useRef('');
+    const email = useRef("");
     return (
-        <form className='col-lg-4 col-md-6 col-sm-10  mx-auto p-2 mt-4' onSubmit={(e)=>{
-            e.preventDefault();
-            login(email.current.value);
-        }}>
-            <div className='mb-3 col-lg-8 col-md-8 col-sm-8'>
-                <label htmlFor='email' className='form-label'>
-                    Email address
-                </label>
-                <input
-                    type='email'
-                    className='form-control'
-                    id='email'
-                    ref={email}
-                    required
-                />
-            </div>
-            <button type='submit' className='btn btn-primary col-lg-2 col-md-2'>
-                Login
-            </button>
-            <button
-                type='button'
-                className='btn btn-primary ms-4 col-lg-auto col-md-auto'
-                onClick={() => {
-                    window.location.replace("/signup");
-                }}
+        <div style={{ backgroundColor: "#ececec", height: "730px" }}>
+            <div
+                className=''
+                style={{ backgroundColor: "#ececec", paddingTop: "10%" }}
             >
-                Create New Account
-            </button>
-        </form>
+                <div className='rounded shadow mx-auto main-container row'>
+                    <div className='col-6'>
+                        <form
+                            className='m-4'
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                login(email.current.value);
+                            }}
+                        >
+                            <h2 className="mb-4">Login</h2>
+                            <div className=''>
+                                <label htmlFor='email' className='form-label'>
+                                    Email
+                                </label>
+                                <input
+                                    type='email'
+                                    className='form-control'
+                                    id='email'
+                                    placeholder="Enter your email address"
+                                    ref={email}
+                                    required
+                                />
+                            </div>
+                            <button type='submit' className='btn btn-primary btn-sm my-4 px-4'>
+                                Login
+                            </button>
+                            <p className="mb-0">Not yet a member?</p>
+                            <a href="/signup">Register Here</a>
+                        </form>
+                    </div>
+                    <div className='col-6'>
+                        <img src={welcome} alt="welcome img-fluid mx-auto" style={{height:'auto',width:'100%',marginTop:'20%',transform:'scale(1.5)'}} />
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 

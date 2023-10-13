@@ -7,6 +7,7 @@ import { logout } from "../utils/auth";
 import ChatList from "./chatlist";
 import Conversation from "./conversation";
 import EmptySelect from "./emptySelect";
+import AvailableUser from "./availableUser";
 
 function Home() {
     const [email, setEmail] = useState();
@@ -46,50 +47,71 @@ function Home() {
     }, [email]);
 
     return (
-        <div className='col-lg-6 col-md-8 col-sm-10 mx-auto mt-3'>
-            <div className='container mb-3'>
-                <div className='d-flex justify-content-end'>
-                    <button
-                        type='button'
-                        className='btn btn-outline-primary rounded-pill'
-                        disabled
-                    >
-                        {`${currentUser.firstName} ${currentUser.lastName}`}
-                    </button>
-                    <button
-                        type='button'
-                        className='btn btn-outline-danger ms-3'
-                        onClick={() => logout()}
-                    >
-                        Logout
-                    </button>
-                </div>
-            </div>
-            <div
-                className='border border-primary rounded row'
-                style={{ height: "650px" }}
-            >
-                <div className='col-4 border border-primary rounded p-0'>
-                    <h3 className='text-center'>Chats</h3>
-                    <ul className='list-group'>
-                        {users.map((user) => (
-                            <ChatList
-                                user={user}
-                                key={user.email}
+        <div style={{ backgroundColor: "#f8f8f8", height: "730px" }}>
+            <div className='p-3 pt-2' style={{ backgroundColor: "#f8f8f8" }}>
+                <div
+                    className='shadow-sm rounded mx-auto row'
+                    style={{
+                        width: "95%",
+                        height: "700px",
+                        backgroundColor: "#ececec",
+                    }}
+                >
+                    <div className='col-3 pe-1'>
+                        <div className='border border-top-0 border-start-0 border-secondary-subtle'>
+                            <div className='mb-2'>
+                                <p className='mb-0 d-inline-flex fs-4'>{`${currentUser.firstName} ${currentUser.lastName}`}</p>
+                                <i
+                                    className='fa fa-sign-out float-end text-center p-2 fs-4 pe-2'
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => logout()}
+                                ></i>
+                            </div>
+                            <p className='mb-1'>Conversations</p>
+                        </div>
+                        <div
+                            className='border-end border-secondary-subtle'
+                            style={{ height: "auto" }}
+                        >
+                            {users.map((user) => (
+                                <ChatList
+                                    user={user}
+                                    key={user.email}
+                                    selectedChat={selectedChat}
+                                    setSelectedChat={setSelectedChat}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div className='border border-secondary-subtle col-6 px-0'>
+                        {selectedChat.email === "" ? (
+                            <EmptySelect />
+                        ) : (
+                            <Conversation
                                 selectedChat={selectedChat}
-                                setSelectedChat={setSelectedChat}
+                                hubConnection={hubConnection}
                             />
-                        ))}
-                    </ul>
+                        )}
+                    </div>
+                    <div className='col-3 px-0'>
+                        <div
+                            className='border-bottom mx-0 border-secondary-subtle'
+                            style={{ marginTop: "13px" }}
+                        >
+                            <p className='text-center fs-5'>Available Users</p>
+                        </div>
+                        <div>
+                            {users.map((user) => (
+                                <AvailableUser
+                                    user={user}
+                                    key={user.email}
+                                    selectedChat={selectedChat}
+                                    setSelectedChat={setSelectedChat}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
-                {selectedChat.email === "" ? (
-                    <EmptySelect />
-                ) : (
-                    <Conversation
-                        selectedChat={selectedChat}
-                        hubConnection={hubConnection}
-                    />
-                )}
             </div>
         </div>
     );

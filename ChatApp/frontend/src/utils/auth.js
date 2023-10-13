@@ -31,7 +31,12 @@ export async function signup(email, firstName, lastName) {
             }
         });
         if (res.status === 200) {
-            login(email);
+            if (res.data.length === 0) {
+                login(email);
+            }
+            else {
+                alert('Email already used');
+            }
         }
     } catch (e) {
         console.log(e);

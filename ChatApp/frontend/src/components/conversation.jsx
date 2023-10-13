@@ -40,7 +40,7 @@ function Conversation({ selectedChat, hubConnection }) {
             if (res.status === 200) {
                 messageText.current.value = "";
                 getMessages();
-                await hubConnection.invoke("SendMessage", receiver, '');
+                await hubConnection.invoke("SendMessage", receiver, "");
                 setShouldScrollToBottom(true);
             }
         } catch (e) {
@@ -56,7 +56,7 @@ function Conversation({ selectedChat, hubConnection }) {
             const res = await axios.delete(api);
             if (res.status === 200) {
                 getMessages();
-                await hubConnection.invoke("SendMessage", receiver, '');
+                await hubConnection.invoke("SendMessage", receiver, "");
             }
         } catch (e) {
             console.log(e);
@@ -110,9 +110,12 @@ function Conversation({ selectedChat, hubConnection }) {
     }, [messages, shouldScrollToBottom]);
 
     return (
-        <div className='col-8 border border-primary rounded p-2'>
-            <div className='border align-middle p-2' style={{ height: "10%" }}>
-                <p className='mb-0 d-inline-flex fs-4'>{`${selectedChat.firstName} ${selectedChat.lastName}`}</p>
+        <div className=''>
+            <div
+                className='border-bottom m-0 border-secondary-subtle align-middle p-2 px-3 mb-1'
+                style={{ height: "10%" }}
+            >
+                <p className='mb-0 d-inline-flex fs-3'>{`${selectedChat.firstName} ${selectedChat.lastName}`}</p>
                 <i
                     className='fa fa-trash float-end text-center p-2 fs-4'
                     onClick={deleteMessage}
@@ -120,27 +123,23 @@ function Conversation({ selectedChat, hubConnection }) {
                 ></i>
             </div>
             <div
-                className='border'
-                style={{ height: "500px", overflowY: "auto" }}
+                className=''
+                style={{ height: "580px", overflowY: "auto" }}
                 ref={messageContainer}
             >
                 {messages.map((message) => (
                     <Message message={message} key={message.messageID} />
                 ))}
             </div>
-            <div className='row g-2 pt-2' style={{ height: "10%" }}>
-                <div className='col-10'>
-                    <div className='input-group'>
-                        <input
-                            type='text'
-                            className='form-control'
-                            id='messageInput'
-                            placeholder='Enter message'
-                            ref={messageText}
-                        />
-                    </div>
-                </div>
-                <div className='col-2'>
+            <div className='g-2 pt-2 mx-auto mt-2' style={{ height: "10%" }}>
+                <div className='col-auto input-group'>
+                    <input
+                        type='text'
+                        className='form-control'
+                        id='messageInput'
+                        placeholder='Enter message'
+                        ref={messageText}
+                    />
                     <button
                         type='button'
                         className='btn btn-primary'
