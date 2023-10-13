@@ -37,7 +37,9 @@ Start the frontend
     npm start
 ```
 ## Screenshot
-
+Home Page
 ![HomePage Screenshot](https://github.com/nayeem-bd/ChatApp/blob/main/ChatApp/Screenshot/screenshot.png)
+Login Page
 ![LogInPage Screenshot](https://github.com/nayeem-bd/ChatApp/blob/main/ChatApp/Screenshot/LoginPage.png)
+SignUp Page
 ![SignUpPage Screenshot](https://github.com/nayeem-bd/ChatApp/blob/main/ChatApp/Screenshot/SignUpPage.png)
