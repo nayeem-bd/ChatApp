@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import Message from "./message";
 
-function Conversation({ selectedChat, hubConnection }) {
+function Conversation({ selectedChat, hubConnection ,getConList}) {
     const [messages, setMessages] = useState([]);
     const [sender, setSender] = useState(localStorage.getItem("email"));
     const [shouldScrollToBottom, setShouldScrollToBottom] = useState(true);
@@ -42,6 +42,7 @@ function Conversation({ selectedChat, hubConnection }) {
                 getMessages();
                 await hubConnection.invoke("SendMessage", receiver, "");
                 setShouldScrollToBottom(true);
+                getConList();
             }
         } catch (e) {
             console.log(e);
@@ -57,6 +58,7 @@ function Conversation({ selectedChat, hubConnection }) {
             if (res.status === 200) {
                 getMessages();
                 await hubConnection.invoke("SendMessage", receiver, "");
+                getConList();
             }
         } catch (e) {
             console.log(e);

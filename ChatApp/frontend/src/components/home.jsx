@@ -8,12 +8,14 @@ import ChatList from "./chatlist";
 import Conversation from "./conversation";
 import EmptySelect from "./emptySelect";
 import AvailableUser from "./availableUser";
+import { getConversations } from "../utils/users";
 
 function Home() {
     const [email, setEmail] = useState();
     const [users, setUsers] = useState([]);
     const [selectedChat, setSelectedChat] = useState({ email: "" });
     const [currentUser, setCurrentUser] = useState({});
+    const [convUsers,setConvUsers] = useState([]);
 
     const getUsers = async () => {
         try {
@@ -36,6 +38,18 @@ function Home() {
         }
     };
 
+    const getConList = async ()=>{
+       const convs = await getConversations(email);
+       let tempConvList = [];
+       if(users.length>0){
+           convs.forEach(el=>{
+                let obj = users.find(o => o.email===el.receiver);
+                tempConvList.push({user:obj,messageText:el.messageText});
+           });
+           setConvUsers(tempConvList);
+       }
+    }
+
     useEffect(() => {
         setEmail(localStorage.getItem("email"));
         getUsers();
@@ -45,6 +59,10 @@ function Home() {
             hubConnection.off("ReceiveNewUser");
         };
     }, [email]);
+
+    useEffect(()=>{
+        getConList();
+    },[email,users]);
 
     return (
         <div style={{ backgroundColor: "#f8f8f8", height: "730px" }}>
@@ -73,14 +91,15 @@ function Home() {
                             className='border-end border-secondary-subtle'
                             style={{ height: "auto" }}
                         >
-                            {users.map((user) => (
+                            {convUsers.length>0?convUsers.map((el) => (
                                 <ChatList
-                                    user={user}
-                                    key={user.email}
+                                    user={el.user}
+                                    key={el.user.email}
                                     selectedChat={selectedChat}
                                     setSelectedChat={setSelectedChat}
+                                    messageText={el.messageText}
                                 />
-                            ))}
+                            )):''}
                         </div>
                     </div>
                     <div className='border border-secondary-subtle col-6 px-0'>
@@ -90,6 +109,7 @@ function Home() {
                             <Conversation
                                 selectedChat={selectedChat}
                                 hubConnection={hubConnection}
+                                getConList={getConList}
                             />
                         )}
                     </div>

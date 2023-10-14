@@ -15,6 +15,8 @@ namespace ChatApp.Controllers
         public required string sender { get; set; }
         public required string receiver { get; set; }
         public string? messageText { get; set; } 
+        public int? messageId { get; set; }
+        public string? timestamp { get; set;}
     }
 
     [Route("api/[controller]")]
@@ -126,6 +128,56 @@ namespace ChatApp.Controllers
             }
 
             return new JsonResult(table);
+        }
+
+        [HttpGet]
+        [Route("all")]
+        public JsonResult GetAllMessage(string sender)
+        {
+            string query = $"select * from dbo.Messages where (sender = '{sender}' or receiver = '{sender}') order by messageId";
+            DataTable table = new DataTable();
+            string sqlDatasource = _configuration.GetConnectionString("ChatAppDBCon");
+            SqlDataReader myReader;
+            try
+            {
+                using (SqlConnection myCon = new SqlConnection(sqlDatasource))
+                {
+                    myCon.Open();
+                    using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                    {
+                        myReader = myCommand.ExecuteReader();
+                        table.Load(myReader);
+                        myReader.Close();
+                        myCon.Close();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new JsonResult(ex.Message);
+            }
+
+            JsonResult res = new JsonResult(table);
+            Dictionary<string, string> users = new Dictionary<string, string>();
+
+            foreach (DataRow row in table.Rows)
+            {
+                var messaageId = row.Field<int>(0);
+                var sender_n = row.Field<string>(1);
+                var receiver = row.Field<string>(2);
+                var messageText = row.Field<string>(3);
+                if (sender_n == sender)
+                {
+                    users[$"{sender}+{receiver}"] = messageText;
+                }
+                else
+                {
+                    users[$"{receiver}+{sender_n}"] = messageText;
+                }
+            }
+
+            return new JsonResult(users);
         }
     }
 }

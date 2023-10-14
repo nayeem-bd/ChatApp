@@ -1,4 +1,4 @@
-function ChatList({ user, selectedChat, setSelectedChat }) {
+function ChatList({ user, selectedChat, setSelectedChat,messageText }) {
     return (
         <div
             className={`border-bottom border-secondary-subtle row me-0 ${
@@ -28,7 +28,7 @@ function ChatList({ user, selectedChat, setSelectedChat }) {
                 <p className='m-0 p-0' style={{ fontSize: "20px" }}>
                     {user.firstName}
                 </p>
-                <p className='m-0 p-0 opacity-75'>hello world</p>
+                <p className='m-0 p-0 opacity-75'>{messageText}</p>
             </div>
         </div>
     );
